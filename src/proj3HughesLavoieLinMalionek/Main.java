@@ -1,36 +1,28 @@
 /*
  * File: Main.java
- * Names: Jenny Lin, Siyuan Li, Carl-Philip Majgaard
+ * Names: Phoebe Hughes, Erin Lavoie, Jenny Lin, Joseph Malionek
  * Class: CS361
- * Project: 2
- * Date: September 21, 2016
+ * Project: 3
+ * Date: October 3, 2016
  */
 
 package proj3HughesLavoieLinMalionek;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
-import java.util.Optional;
-import java.util.stream.IntStream;
-
 /**
- *  This class creates a JavaFX window to play the musical scales that the user specifies
+ *  This class creates a JavaFX window for the user to compose a musical piece to be played
+ *  @author Phoebe Hughes
+ *  @author Erin Lavoie
  *  @author Jenny Lin
- *  @author Siyuan Li
- *  @author Carl-Philip Majgaard
+ *  @author Joseph Malionek
  */
 public class Main extends Application{
 
@@ -57,8 +49,10 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
 //        this.midiPlayer = new MidiPlayer(this.BPM, this.RESOLUTION);
 
+        Composition compositionPane = new Composition();
+
         FXMLLoader fxmlLoader = new  FXMLLoader(getClass().getResource("Main.fxml"));
-        fxmlLoader.setController(new Composition()); //Set Composition as the controller
+        fxmlLoader.setController(compositionPane); //Set Composition as the controller
         BorderPane root = fxmlLoader.load();
         guiLineSetup(root.getCenter());
 
@@ -74,14 +68,14 @@ public class Main extends Application{
      * @param center the pane that holds the VBox which holds the lines
      */
     public void guiLineSetup(Node center){
-        VBox compositionBox = (VBox)((ScrollPane)center).getContent();
+        Pane compositionPane = (Pane)((ScrollPane)center).getContent();
         for(int i = 1; i <= 127; i++){
             Line l = new Line();
             l.setStartX(0);
             l.setEndX(2000);
-            l.setTranslateY(i*9); //Translating by 9 pixels because the line itself is 1 pixel
+            l.setTranslateY(i*10);
             l.getStyleClass().add("compositionLine");
-            compositionBox.getChildren().add(l);
+            compositionPane.getChildren().add(l);
         }
     }
 

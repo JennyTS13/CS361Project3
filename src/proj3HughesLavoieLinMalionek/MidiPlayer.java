@@ -1,9 +1,9 @@
 /*
  * File: MidiPlayer.java
- * Names: Jenny Lin, Siyuan Li, Carl-Philip Majgaard
+ * Names: Phoebe Hughes, Erin Lavoie, Jenny Lin, Joseph Malionek
  * Class: CS361
- * Project: 2
- * Date: September 21, 2016
+ * Project: 3
+ * Date: October 3, 2016
  */
 
 package proj3HughesLavoieLinMalionek;

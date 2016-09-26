@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--File: Composition.java
+    Names: Phoebe Hughes, Erin Lavoie, Jenny Lin, Joseph Malionek
+    Class: CS361
+    Project: 3
+    Date: October 3, 2016-->
+
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 
 <BorderPane stylesheets="@Main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <ScrollPane fx:id="compositionPane" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="compositionBox" onMouseClicked="#addNoteOnClick" />
+            <Pane fx:id="compositionBox" onMouseClicked="#addNoteOnClick" />
          </content>
       </ScrollPane>
    </center>
@@ -19,17 +26,26 @@
        <MenuBar BorderPane.alignment="CENTER">
            <menus>
                <Menu text="File">
-                <items>
-                    <MenuItem onAction="#exitProgram" text="Exit" />
-                </items>
-            </Menu>
-            <Menu text="Action">
-                 <items>
-                     <MenuItem onAction="#playComposition" text="Play" />
-                     <MenuItem onAction="#stopComposition" text="Stop" />
-                </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+                   <items>
+                       <MenuItem onAction="#exitProgram" text="Exit">
+                           <accelerator>
+                               <KeyCodeCombination alt="UP" code="Q" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                   </items>
+               </Menu>
+               <Menu text="Action">
+                   <items>
+                       <MenuItem onAction="#playComposition" text="Play">
+                           <accelerator>
+                               <KeyCodeCombination alt="UP" code="P" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                       <MenuItem onAction="#stopComposition" text="Stop">
+                           <accelerator>
+                               <KeyCodeCombination alt="UP" code="S" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                   </items>
+               </Menu>
+           </menus>
+       </MenuBar>
    </top>
 </BorderPane>

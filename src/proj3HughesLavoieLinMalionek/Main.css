@@ -1,3 +1,11 @@
+/*
+ * File: Main.css
+ * Names: Phoebe Hughes, Erin Lavoie, Jenny Lin, Joseph Malionek
+ * Class: CS361
+ * Project: 3
+ * Date: October 3, 2016
+ */
+
 #compositionPane {
     -fx-pref-height: 50.0;
     -fx-pref-width: 50.0;
@@ -10,4 +18,13 @@
 
 .compositionLine {
     -fx-stroke: #0000004d;
+}
+
+.noteBox {
+    -fx-arc-height: 5;
+    -fx-arc-width: 5;
+    -fx-fill: #2197ffd6;
+    -fx-opacity: 0.5;
+    -fx-stroke: BLACK;
+    -fx-stroke-type: INSIDE;
 }
