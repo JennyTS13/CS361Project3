@@ -14,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 /**
  *  This class handles all the FXML actions, allowing users to add notes and play the composition
  *  @author Phoebe Hughes
@@ -39,6 +41,11 @@ public class Composition {
     private MidiPlayer midiPlayer;
 
     /**
+     * the
+     */
+    private ArrayList<Note> composition;
+
+    /**
      * the VBox which holds all composition information
      */
     @FXML
@@ -46,6 +53,7 @@ public class Composition {
 
     public Composition() {
         this.midiPlayer = new MidiPlayer(this.BPM, this.RESOLUTION);
+        this.composition = new ArrayList<Note>();
     }
 
     /**
@@ -59,11 +67,16 @@ public class Composition {
 
     /**
      * Triggered when "Play" is clicked
-     * Plays the piece using the midiPlayer and moves the red bar to display progress
+     * Clears the midi player, adds all note to its stream and plays the piece
      */
     @FXML
-    public void playComposition() {
-        System.out.println("Playing");
+    public void handlePlay() {
+        this.midiPlayer.clear();
+        for(Note note : this.composition) {
+            this.midiPlayer.addNote(note.pitch, 80, note.startTick,
+                    note.startTick + this.RESOLUTION, 0, 0);
+        }
+        this.midiPlayer.play();
     }
 
     /**
@@ -79,7 +92,7 @@ public class Composition {
 
     /**
      * Triggered when the user clicks anywhere within the compositionBox
-     * Adds a note to the GUI and the midiPlayer's stream
+     * Adds a note to our compositionNoteList and the midiPlayer's stream
      *
      * @param click the event that holds information on where the click occurred
      */
@@ -87,12 +100,26 @@ public class Composition {
     public void addNoteOnClick(MouseEvent click) {
 
         int yloc = ((int)click.getY()/10)*10; //y coordinate of the top left of the rectangle
+        int xloc = (int)click.getX();
 
         Rectangle rect = new Rectangle(100, 10);
         rect.getStyleClass().add("noteBox");
-        rect.setTranslateX(click.getX());
+        rect.setTranslateX(xloc);
         rect.setTranslateY(yloc);
         compositionBox.getChildren().add(rect);
+
+        this.composition.add(new Note(yloc/10, xloc));
+    }
+
+    private class Note{
+
+        public int pitch;
+        public int startTick;
+
+        public Note(int pitch, int startTick){
+            this.pitch = pitch;
+            this.startTick = startTick;
+        }
     }
 }
 

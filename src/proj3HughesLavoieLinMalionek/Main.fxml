@@ -35,7 +35,7 @@
                </Menu>
                <Menu text="Action">
                    <items>
-                       <MenuItem onAction="#playComposition" text="Play">
+                       <MenuItem onAction="#handlePlay" text="Play">
                            <accelerator>
                                <KeyCodeCombination alt="UP" code="P" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
