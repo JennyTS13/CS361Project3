@@ -18,6 +18,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
@@ -70,15 +71,15 @@ public class Main extends Application{
 
     /**
      * Add 127 horizontal thin light gray lines spaced 10 pixels apart to the GUI
-     * @param center pane which holds the VBox which holds the lines
+     * @param center the pane that holds the VBox which holds the lines
      */
     public void guiLineSetup(Node center){
         VBox compositionBox = (VBox)((ScrollPane)center).getContent();
-        for(int i = 1; i <= 128; i++){
+        for(int i = 1; i <= 127; i++){
             Line l = new Line();
             l.setStartX(0);
             l.setEndX(2000);
-            l.setTranslateY(i*10);
+            l.setTranslateY(i*9); //Translating by 9 pixels because the line itself is 1 pixel
             l.getStyleClass().add("compositionLine");
             compositionBox.getChildren().add(l);
         }

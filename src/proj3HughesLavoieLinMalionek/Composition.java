@@ -1,6 +1,8 @@
 package proj3HughesLavoieLinMalionek;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Created by jslin on 9/26/16.
@@ -53,5 +55,15 @@ public class Composition {
         this.midiPlayer.stop();
         this.midiPlayer.clear();
         System.out.println("Stopping");
+    }
+
+    /**
+     * Triggered when the user clicks anywhere within the compositionBox
+     * Adds a note to the midiPlayer's stream
+     * @param click the event that holds information on where the click occurred
+     */
+    @FXML
+    public void addNoteOnClick(MouseEvent click){
+        System.out.println("x: " + click.getX() + "y: " + click.getY());
     }
 }

@@ -11,7 +11,7 @@
    <center>
       <ScrollPane fx:id="compositionPane" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="compositionBox" />
+            <VBox fx:id="compositionBox" onMouseClicked="#addNoteOnClick" />
          </content>
       </ScrollPane>
    </center>
