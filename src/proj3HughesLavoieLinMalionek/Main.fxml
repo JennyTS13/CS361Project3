@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@Main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <ScrollPane fx:id="compositionPane" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="compositionBox" />
+         </content>
+      </ScrollPane>
+   </center>
+   <top>
+       <MenuBar BorderPane.alignment="CENTER">
+           <menus>
+               <Menu text="File">
+                <items>
+                    <MenuItem onAction="#exitProgram" text="Exit" />
+                </items>
+            </Menu>
+            <Menu text="Action">
+                 <items>
+                     <MenuItem onAction="#playComposition" text="Play" />
+                     <MenuItem onAction="#stopComposition" text="Stop" />
+                </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

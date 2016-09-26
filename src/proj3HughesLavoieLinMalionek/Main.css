@@ -1,0 +1,13 @@
+#compositionPane {
+    -fx-pref-height: 50.0;
+    -fx-pref-width: 50.0;
+}
+
+#compositionBox {
+    -fx-pref-height: 1280.0;
+    -fx-pref-width: 2000.0;
+}
+
+.compositionLine {
+    -fx-stroke: #0000004d;
+}
