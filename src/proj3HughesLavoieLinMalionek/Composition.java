@@ -8,11 +8,17 @@
 
 package proj3HughesLavoieLinMalionek;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
@@ -51,11 +57,13 @@ public class Composition {
     @FXML
     private Pane compositionBox;
 
-    /**A reference to the main program*/
-    private Main main;
+    /**
+     * The red line which moves across the screen as a composition is played.
+     */
+    @FXML
+    private Line redLine;
 
-    public Composition(Main main) {
-        this.main = main;
+    public Composition() {
         this.midiPlayer = new MidiPlayer(this.BPM, this.RESOLUTION);
         this.composition = new ArrayList<Note>();
     }
@@ -85,7 +93,7 @@ public class Composition {
             }
         }
         this.midiPlayer.play();
-        this.main.makeRedLineAndMoveIt(compositionBox,lastNoteEnd);
+        this.moveRedLine(lastNoteEnd);
 
     }
 
@@ -97,6 +105,7 @@ public class Composition {
     public void stopComposition() {
         this.midiPlayer.stop();
         this.midiPlayer.clear();
+        this.redLine.setVisible(false);
         System.out.println("Stopping");
     }
 
@@ -118,7 +127,26 @@ public class Composition {
         rect.setTranslateY(yloc);
         compositionBox.getChildren().add(rect);
 
-        this.composition.add(new Note(yloc/10, xloc));
+        this.composition.add(new Note(127-yloc/10, xloc));
+    }
+
+
+    /**Makes a red line go across the screen as the notes are played.
+     *
+     */
+
+    public void moveRedLine(int stopPosition){
+        redLine.setEndX(0);
+        redLine.setStartX(0);
+        redLine.setVisible(true);
+        KeyFrame start = new KeyFrame(new Duration(stopPosition*10+1),
+                event -> redLine.setVisible(false),
+                new KeyValue(redLine.startXProperty(),stopPosition),
+                new KeyValue(redLine.endXProperty(),stopPosition)
+        );
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(start);
+        timeline.play();
     }
 
     private class Note{
