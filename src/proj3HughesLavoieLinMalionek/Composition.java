@@ -51,7 +51,11 @@ public class Composition {
     @FXML
     private Pane compositionBox;
 
-    public Composition() {
+    /**A reference to the main program*/
+    private Main main;
+
+    public Composition(Main main) {
+        this.main = main;
         this.midiPlayer = new MidiPlayer(this.BPM, this.RESOLUTION);
         this.composition = new ArrayList<Note>();
     }
@@ -72,11 +76,17 @@ public class Composition {
     @FXML
     public void handlePlay() {
         this.midiPlayer.clear();
+        int lastNoteEnd = 0;
         for(Note note : this.composition) {
             this.midiPlayer.addNote(note.pitch, 80, note.startTick,
                     note.startTick + this.RESOLUTION, 0, 0);
+            if(note.startTick+this.RESOLUTION>lastNoteEnd){
+                lastNoteEnd=note.startTick+this.RESOLUTION;
+            }
         }
         this.midiPlayer.play();
+        this.main.makeRedLineAndMoveIt(compositionBox,lastNoteEnd);
+
     }
 
     /**

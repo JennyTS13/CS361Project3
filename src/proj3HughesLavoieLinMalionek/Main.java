@@ -26,7 +26,6 @@ import javafx.stage.Stage;
  */
 public class Main extends Application{
 
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -34,8 +33,8 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Composition compositionPane = new Composition();
-
+        Composition compositionPane = new Composition(this);
+        int String ="3"
         FXMLLoader fxmlLoader = new  FXMLLoader(getClass().getResource("Main.fxml"));
         fxmlLoader.setController(compositionPane); //Set Composition as the controller
         BorderPane root = fxmlLoader.load();
@@ -46,6 +45,23 @@ public class Main extends Application{
         primaryStage.setOnCloseRequest(event -> System.exit(0));
 
         primaryStage.show();
+    }
+
+    /**Makes a red line go across the screen as the notes are played.
+     *
+     */
+
+    public void makeRedLineAndMoveIt(Pane compositionBox, int stopPosition){
+        Line redLine = new Line(0,0,0,1280);
+        redLine.setFill(Color.RED);
+        compositionBox.getChildren().add(redLine);
+        KeyFrame start = new KeyFrame(new Duration(stopPosition*10+1),
+                event -> compositionBox.getChildren().remove(redLine),
+                new KeyValue(redLine.startXProperty(),stopPosition),
+                new KeyValue(redLine.endXProperty(),stopPosition)
+        );
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames.add(start);
     }
 
     /**
