@@ -34,12 +34,12 @@ public class Composition {
     /**
      * the number of beats per minute
      */
-    private static final int BPM = 60;
+    private final int BPM = 60;
 
     /**
      * the number of ticks per beat
      */
-    private static final int RESOLUTION = 100;
+    private final int RESOLUTION = 100;
 
     /**
      * the MidiPlayer which will be used to play the composed piece
@@ -63,9 +63,13 @@ public class Composition {
     @FXML
     private Line redLine;
 
+    /**the timeline for animating the redLine*/
+    private Timeline timeline;
+
     public Composition() {
         this.midiPlayer = new MidiPlayer(this.BPM, this.RESOLUTION);
-        this.composition = new ArrayList<Note>();
+        this.composition = new ArrayList<>();
+        this.timeline = new Timeline();
     }
 
     /**
@@ -83,7 +87,7 @@ public class Composition {
      */
     @FXML
     public void handlePlay() {
-        this.midiPlayer.clear();
+        this.stopComposition();
         int lastNoteEnd = 0;
         for(Note note : this.composition) {
             this.midiPlayer.addNote(note.pitch, 80, note.startTick,
@@ -106,6 +110,8 @@ public class Composition {
         this.midiPlayer.stop();
         this.midiPlayer.clear();
         this.redLine.setVisible(false);
+        this.timeline.stop();
+        this.timeline.getKeyFrames().clear();
         System.out.println("Stopping");
     }
 
@@ -135,7 +141,7 @@ public class Composition {
      *
      */
 
-    public void moveRedLine(int stopPosition){
+    private void moveRedLine(int stopPosition){
         redLine.setEndX(0);
         redLine.setStartX(0);
         redLine.setVisible(true);
@@ -144,17 +150,17 @@ public class Composition {
                 new KeyValue(redLine.startXProperty(),stopPosition),
                 new KeyValue(redLine.endXProperty(),stopPosition)
         );
-        Timeline timeline = new Timeline();
+        timeline = new Timeline();
         timeline.getKeyFrames().add(start);
         timeline.play();
     }
 
     private class Note{
 
-        public int pitch;
-        public int startTick;
+        int pitch;
+        int startTick;
 
-        public Note(int pitch, int startTick){
+        Note(int pitch, int startTick){
             this.pitch = pitch;
             this.startTick = startTick;
         }
