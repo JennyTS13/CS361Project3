@@ -32,48 +32,48 @@ import java.util.ArrayList;
 public class Composition {
 
     /**
-     * the number of beats per minute
-     * used initializing the MidiPlayer
+     * The number of beats per minute.
+     * Used when initializing the MidiPlayer.
      */
     private final int BPM = 60;
 
     /**
-     * the number of ticks per beat
-     * used initializing the MidiPlayer
+     * The number of ticks per beat.
+     * Used when initializing the MidiPlayer.
      */
     private final int DURATION = 100;
 
     /**
-     * the default volume for the MidiPlayer
-     * used for adding notes
+     * The default volume for the MidiPlayer.
+     * Used for adding notes to the MidiPlayer.
      */
     private final int VOLUME = 80;
 
     /**
-     * the MidiPlayer that will be used to play the user's composition piece
+     * The MidiPlayer that will be used to play the user's composition piece.
      */
     private MidiPlayer midiPlayer;
 
     /**
-     * the list that stores all notes added by the user to the composition
-     * to be played by the MidiPlayer
+     * The list that stores all notes added by the user to the composition
+     * to be played by the MidiPlayer.
      */
     private ArrayList<Note> noteList;
 
     /**
-     * the Pane that stores the redLine, noteLines, and note block
+     * The Pane that stores the redLine, noteLines, and note block.
      */
     @FXML
     private Pane compositionBox;
 
     /**
-     * the red line which moves across the screen as a composition is played.
+     * The redLine which moves across the screen as a composition is played.
      */
     @FXML
     private Line redLine;
 
     /**
-     * the timeline for animating the redLine.
+     * The timeline for animating the redLine.
      */
     private Timeline timeline;
 
@@ -83,13 +83,13 @@ public class Composition {
      */
     public Composition() {
 
-        // MidiPlayer for playing notes
+        // midiPlayer for playing notes
         this.midiPlayer = new MidiPlayer(this.BPM, this.DURATION);
 
         // noteList for storing notes
         this.noteList = new ArrayList<Note>();
 
-        // timeline for animating redline
+        // timeline for animating redLine
         this.timeline = new Timeline();
 
     }
@@ -113,19 +113,28 @@ public class Composition {
         // stop the program
         this.stopComposition();
 
-        // 
-        int lastNoteEnd = 0;
+        // keeps track of the final note in the composition
+        int finalTick = 0;
 
+        // looping over our note list
+        for( Note note : this.noteList ) {
+            
+            // adding each note from note list to the midiPlayer cache
+            this.midiPlayer.addNote( note.pitch, this.VOLUME, note.startTick,
+                    note.startTick + this.DURATION, 0, 0 );
 
-        for(Note note : this.noteList) {
-            this.midiPlayer.addNote(note.pitch, 80, note.startTick,
-                    note.startTick + this.DURATION, 0, 0);
-            if(note.startTick+this.DURATION > lastNoteEnd){
-                lastNoteEnd=note.startTick+this.DURATION;
+            // check if the note being added is past the current finalTick
+            if( note.startTick + this.DURATION > finalTick ){
+
+                // if yes, we update the value for finalTick
+                finalTick = note.startTick + this.DURATION;
             }
+
         }
+
+        // moving redLine in time with the midiPlayer as it plays
         this.midiPlayer.play();
-        this.moveRedLine(lastNoteEnd);
+        this.moveRedLine(finalTick);
 
     }
 
@@ -135,10 +144,16 @@ public class Composition {
      */
     @FXML
     public void stopComposition() {
+
+        // stop the midiPlayer and clear the noteCache
         this.midiPlayer.stop();
         this.midiPlayer.clear();
+
+        // making redLine invisible
         this.redLine.setVisible(false);
+        // stops the animation
         this.timeline.stop();
+        // reset timeline events
         this.timeline.getKeyFrames().clear();
     }
 
@@ -151,45 +166,87 @@ public class Composition {
     @FXML
     public void addNoteOnClick(MouseEvent click) {
 
-        int yloc = ((int)click.getY()/10)*10; //y coordinate of the top left of the rectangle
-        int xloc = (int)click.getX();
+        // we divide y by 10, floor the result and multiply by 10 in order
+        // to lock the box within the bounds of the noteLines
+        int yloc = ((int) click.getY() / 10) * 10; // y coord of top left corner of box
+        int xloc = (int) click.getX();
 
-        Rectangle rect = new Rectangle(100, 10);
+        // creating Rectangle and adding CSS class to it
+        Rectangle rect = new Rectangle( 100, 10);
         rect.getStyleClass().add("noteBox");
+
+        // moving the rect to clicked location
         rect.setTranslateX(xloc);
         rect.setTranslateY(yloc);
+
         compositionBox.getChildren().add(rect);
 
-        this.noteList.add(new Note(127-yloc/10, xloc));
+        // create and store the equivalent note in noteList
+        this.noteList.add( new Note( 127 - yloc / 10, xloc) );  // ***JENNY!!!! Pwease explain the arithmetic here******************************
     }
 
 
-    /**Makes a red line go across the screen as the notes are played.
-     *
+    /**
+     * Makes a red line go across the screen as the notes are played.
      */
 
     public void moveRedLine(int stopPosition){
+
+        // set the redLine back to the beginning [of the timeline?]
         redLine.setEndX(0);
         redLine.setStartX(0);
+
+        // set the redLine to visible
         redLine.setVisible(true);
-        KeyFrame start = new KeyFrame(new Duration(stopPosition*10+1),
-                event -> redLine.setVisible(false),
-                new KeyValue(redLine.startXProperty(),stopPosition),
-                new KeyValue(redLine.endXProperty(),stopPosition)
-        );
+
+        // Duration object for KeyFrame that specifies the duration of the animation
+        // we multiply stopPosition by 10 because duration takes an input in milliseconds
+        Duration duration = new Duration( stopPosition * 10 );
+
+        // the KeyValue on the timeline that animates the top of the redLine
+        KeyValue startXKey = new KeyValue( redLine.startXProperty(), stopPosition );
+
+        // the KeyValue on the timeline that animates the bottom of the redLine
+        KeyValue endXKey = new KeyValue( redLine.endXProperty(), stopPosition );
+
+
+        // KeyFrame defines how the redLine moves
+        // the stopPosition is where the line should stop moving and disappear
+        KeyFrame motion = new KeyFrame( duration,
+                event -> redLine.setVisible(false),     // set redLine to invisible when animation has finished
+                startXKey, endXKey );
+
+        // we create a timeline object that orchestrates and stores the keyframes of our animation
         timeline = new Timeline();
-        timeline.getKeyFrames().add(start);
+
+        // we add our motion KeyFrame to our timeline
+        timeline.getKeyFrames().add(motion);
+
         timeline.play();
     }
 
+    /**
+     * A note object that stores the pitch and startTick values
+     * to be played on a MidiPlayer
+     */
     private class Note{
 
+        // information required to play a note with the MidiPlayer
         private int pitch;
         private int startTick;
 
-        Note(int pitch, int startTick){
+        /**
+         * Constructs a Note object
+         *
+         * @param pitch         the pitch of the note to be played with a MidiPlayer (Range 0-127)
+         * @param startTick     the tick that the note begins playing in the MidiPlayer
+         */
+        Note( int pitch, int startTick ){
+
+            // initializing fields
             this.pitch = pitch;
             this.startTick = startTick;
+
         }
     }
 }

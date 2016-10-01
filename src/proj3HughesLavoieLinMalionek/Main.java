@@ -27,24 +27,24 @@ import javafx.stage.Stage;
 public class Main extends Application{
 
     /**
-     *
+     *  WRITE A JAVADOC HERE
      * @param primaryStage
      * @throws Exception
      */
-    public void start(Stage primaryStage) throws Exception {
+    public void start( Stage primaryStage ) throws Exception {
 
         // initializing composition object
         Composition composition = new Composition();
 
         // loading FXML
-        FXMLLoader fxmlLoader = new  FXMLLoader(getClass().getResource("Main.fxml"));
-        fxmlLoader.setController(composition); //Set Composition as the controller
+        FXMLLoader fxmlLoader = new  FXMLLoader( getClass().getResource("Main.fxml") );
+        fxmlLoader.setController( composition );      // Set Composition as the controller
         BorderPane root = fxmlLoader.load();
         guiLineSetup(root.getCenter());
 
         // Setting stage
         primaryStage.setTitle("Composition Player");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene( new Scene( root, 600, 400) );
         primaryStage.setOnCloseRequest(event -> System.exit(0));
 
         // showing GUI
@@ -53,30 +53,35 @@ public class Main extends Application{
 
     /**
      * Add 127 horizontal thin light gray lines spaced 10 pixels apart to the GUI
+     *
      * @param center the pane that holds the VBox which holds the lines
      */
     public void guiLineSetup(Node center){
 
 
         // holds the noteLines, the notes (blocks), and the redLine
-        Pane compositionBox = (Pane)((ScrollPane)center).getContent();
+        Pane compositionBox = (Pane) ((ScrollPane) center).getContent();
 
         // looping over to add noteLines
-        for(int i = 1; i <= 127; i++){
+        for ( int i = 1; i <= 127; i++ ){
 
             // initializing noteLine
             // i*10 used to control space between noteLines, 0 & 2000 for width
-            Line noteLine = new Line(0, i*10, 2000, i*10);
+            Line noteLine = new Line( 0, i * 10, 2000, i * 10);
 
             // adding CSS class to noteLine object
-            noteLine.getStyleClass().add("compositionLine");
+            noteLine.getStyleClass().add( "compositionLine" );
 
             // adding noteLines to notePane
-            compositionBox.getChildren().add(noteLine);
+            compositionBox.getChildren().add( noteLine );
         }
     }
 
-    public static void main(String[] args) {
+    /**
+     * DO WE NEED A JAVADOC HERE?
+     * @param args
+     */
+    public static void main( String[] args ) {
         launch(args);
     }
 }
