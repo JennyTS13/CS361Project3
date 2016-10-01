@@ -156,8 +156,8 @@ public class Composition {
 
     private class Note{
 
-        int pitch;
-        int startTick;
+        private int pitch;
+        private int startTick;
 
         Note(int pitch, int startTick){
             this.pitch = pitch;

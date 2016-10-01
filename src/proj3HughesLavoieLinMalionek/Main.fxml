@@ -20,7 +20,7 @@
       <ScrollPane BorderPane.alignment="CENTER">
          <content>
             <Pane fx:id="compositionBox" onMouseClicked="#addNoteOnClick" >
-                <Line fx:id="redLine"  endY="1280" stroke="red" visible="false"/>
+                <Line fx:id="redLine" endY="1280" visible="false"/>
             </Pane>
          </content>
       </ScrollPane>

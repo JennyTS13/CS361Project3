@@ -31,19 +31,28 @@ import javafx.util.Duration;
  */
 public class Main extends Application{
 
-    @Override
+    /**
+     *
+     * @param primaryStage
+     * @throws Exception
+     */
     public void start(Stage primaryStage) throws Exception {
 
+        // initializing composition object
         Composition composition = new Composition();
+
+        // loading FXML
         FXMLLoader fxmlLoader = new  FXMLLoader(getClass().getResource("Main.fxml"));
         fxmlLoader.setController(composition); //Set Composition as the controller
         BorderPane root = fxmlLoader.load();
         guiLineSetup(root.getCenter());
 
+        // Setting stage
         primaryStage.setTitle("Composition Player");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.setOnCloseRequest(event -> System.exit(0));
 
+        // showing GUI
         primaryStage.show();
     }
 
@@ -52,13 +61,25 @@ public class Main extends Application{
      * @param center the pane that holds the VBox which holds the lines
      */
     public void guiLineSetup(Node center){
-        Pane composition = (Pane)((ScrollPane)center).getContent();
+
+
+        // holds the staff lines, the note blocks, and the red line
+        Pane notePane = (Pane)((ScrollPane)center).getContent();
+
+        // looping over to add staff lines
         for(int i = 1; i <= 127; i++){
+
+            // initializing line
             Line l = new Line(0, i*10, 2000, i*10);
+
+            // adding CSS class to line object
             l.getStyleClass().add("compositionLine");
-            composition.getChildren().add(l);
+
+            // adding staff lines to notePane
+            notePane.getChildren().add(l);
         }
     }
+
     public static void main(String[] args) {
         launch(args);
     }

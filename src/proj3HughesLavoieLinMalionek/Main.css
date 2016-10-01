@@ -16,6 +16,10 @@
     -fx-pref-width: 2000.0;
 }
 
+#redLine {
+    -fx-stroke: red;
+}
+
 .compositionLine {
     -fx-stroke: #0000004d;
 }
