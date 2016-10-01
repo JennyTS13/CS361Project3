@@ -112,7 +112,6 @@ public class Composition {
         this.redLine.setVisible(false);
         this.timeline.stop();
         this.timeline.getKeyFrames().clear();
-        System.out.println("Stopping");
     }
 
     /**

@@ -54,10 +54,7 @@ public class Main extends Application{
     public void guiLineSetup(Node center){
         Pane composition = (Pane)((ScrollPane)center).getContent();
         for(int i = 1; i <= 127; i++){
-            Line l = new Line();
-            l.setStartX(0);
-            l.setEndX(2000);
-            l.setTranslateY(i*10);
+            Line l = new Line(0, i*10, 2000, i*10);
             l.getStyleClass().add("compositionLine");
             composition.getChildren().add(l);
         }
