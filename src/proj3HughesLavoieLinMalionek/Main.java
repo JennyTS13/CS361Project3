@@ -8,19 +8,14 @@
 
 package proj3HughesLavoieLinMalionek;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  *  This class creates a JavaFX window for the user to compose a musical piece to be played
@@ -63,20 +58,21 @@ public class Main extends Application{
     public void guiLineSetup(Node center){
 
 
-        // holds the staff lines, the note blocks, and the red line
-        Pane notePane = (Pane)((ScrollPane)center).getContent();
+        // holds the noteLines, the notes (blocks), and the redLine
+        Pane compositionBox = (Pane)((ScrollPane)center).getContent();
 
-        // looping over to add staff lines
+        // looping over to add noteLines
         for(int i = 1; i <= 127; i++){
 
-            // initializing line
-            Line l = new Line(0, i*10, 2000, i*10);
+            // initializing noteLine
+            // i*10 used to control space between noteLines, 0 & 2000 for width
+            Line noteLine = new Line(0, i*10, 2000, i*10);
 
-            // adding CSS class to line object
-            l.getStyleClass().add("compositionLine");
+            // adding CSS class to noteLine object
+            noteLine.getStyleClass().add("compositionLine");
 
-            // adding staff lines to notePane
-            notePane.getChildren().add(l);
+            // adding noteLines to notePane
+            compositionBox.getChildren().add(noteLine);
         }
     }
 

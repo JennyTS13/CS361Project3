@@ -44,6 +44,12 @@ public class Composition {
     private final int DURATION = 100;
 
     /**
+     * the default volume for the MidiPlayer
+     * used for adding notes
+     */
+    private final int VOLUME = 80;
+
+    /**
      * the MidiPlayer that will be used to play the user's composition piece
      */
     private MidiPlayer midiPlayer;
@@ -55,18 +61,20 @@ public class Composition {
     private ArrayList<Note> noteList;
 
     /**
-     * the VBox which holds all composition information
+     * the Pane that stores the redLine, noteLines, and note block
      */
     @FXML
     private Pane compositionBox;
 
     /**
-     * The red line which moves across the screen as a composition is played.
+     * the red line which moves across the screen as a composition is played.
      */
     @FXML
     private Line redLine;
 
-    /**the timeline for animating the redLine*/
+    /**
+     * the timeline for animating the redLine.
+     */
     private Timeline timeline;
 
 
@@ -75,7 +83,7 @@ public class Composition {
      */
     public Composition() {
 
-        // Midi Player for playing notes
+        // MidiPlayer for playing notes
         this.midiPlayer = new MidiPlayer(this.BPM, this.DURATION);
 
         // noteList for storing notes
@@ -112,7 +120,7 @@ public class Composition {
         for(Note note : this.noteList) {
             this.midiPlayer.addNote(note.pitch, 80, note.startTick,
                     note.startTick + this.DURATION, 0, 0);
-            if(note.startTick+this.DURATION>lastNoteEnd){
+            if(note.startTick+this.DURATION > lastNoteEnd){
                 lastNoteEnd=note.startTick+this.DURATION;
             }
         }
@@ -160,7 +168,7 @@ public class Composition {
      *
      */
 
-    private void moveRedLine(int stopPosition){
+    public void moveRedLine(int stopPosition){
         redLine.setEndX(0);
         redLine.setStartX(0);
         redLine.setVisible(true);
