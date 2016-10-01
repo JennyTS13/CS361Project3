@@ -30,22 +30,13 @@
            <menus>
                <Menu text="File">
                    <items>
-                       <MenuItem onAction="#exitProgram" text="Exit">
-                           <accelerator>
-                               <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
-                           </accelerator></MenuItem>
+                       <MenuItem onAction="#exitProgram" text="Exit" accelerator="Shortcut+Q"/>
                    </items>
                </Menu>
                <Menu text="Action">
                    <items>
-                       <MenuItem onAction="#handlePlay" text="Play">
-                           <accelerator>
-                               <KeyCodeCombination alt="UP" code="P" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
-                           </accelerator></MenuItem>
-                       <MenuItem onAction="#stopComposition" text="Stop">
-                           <accelerator>
-                               <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
-                           </accelerator></MenuItem>
+                       <MenuItem onAction="#handlePlay" text="Play" accelerator="Shortcut+P"/>
+                       <MenuItem onAction="#stopComposition" text="Stop" accelerator="Shortcut+S"/>
                    </items>
                </Menu>
            </menus>
