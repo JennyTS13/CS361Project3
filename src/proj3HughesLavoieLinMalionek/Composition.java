@@ -33,23 +33,26 @@ public class Composition {
 
     /**
      * the number of beats per minute
+     * used initializing the MidiPlayer
      */
     private final int BPM = 60;
 
     /**
      * the number of ticks per beat
+     * used initializing the MidiPlayer
      */
-    private final int RESOLUTION = 100;
+    private final int DURATION = 100;
 
     /**
-     * the MidiPlayer which will be used to play the composed piece
+     * the MidiPlayer that will be used to play the user's composition piece
      */
     private MidiPlayer midiPlayer;
 
     /**
-     * the
+     * the list that stores all notes added by the user to the composition
+     * to be played by the MidiPlayer
      */
-    private ArrayList<Note> composition;
+    private ArrayList<Note> noteList;
 
     /**
      * the VBox which holds all composition information
@@ -66,10 +69,21 @@ public class Composition {
     /**the timeline for animating the redLine*/
     private Timeline timeline;
 
+
+    /**
+     * Constructor for Composition
+     */
     public Composition() {
-        this.midiPlayer = new MidiPlayer(this.BPM, this.RESOLUTION);
-        this.composition = new ArrayList<>();
+
+        // Midi Player for playing notes
+        this.midiPlayer = new MidiPlayer(this.BPM, this.DURATION);
+
+        // noteList for storing notes
+        this.noteList = new ArrayList<Note>();
+
+        // timeline for animating redline
         this.timeline = new Timeline();
+
     }
 
     /**
@@ -87,13 +101,19 @@ public class Composition {
      */
     @FXML
     public void handlePlay() {
+
+        // stop the program
         this.stopComposition();
+
+        // 
         int lastNoteEnd = 0;
-        for(Note note : this.composition) {
+
+
+        for(Note note : this.noteList) {
             this.midiPlayer.addNote(note.pitch, 80, note.startTick,
-                    note.startTick + this.RESOLUTION, 0, 0);
-            if(note.startTick+this.RESOLUTION>lastNoteEnd){
-                lastNoteEnd=note.startTick+this.RESOLUTION;
+                    note.startTick + this.DURATION, 0, 0);
+            if(note.startTick+this.DURATION>lastNoteEnd){
+                lastNoteEnd=note.startTick+this.DURATION;
             }
         }
         this.midiPlayer.play();
@@ -132,7 +152,7 @@ public class Composition {
         rect.setTranslateY(yloc);
         compositionBox.getChildren().add(rect);
 
-        this.composition.add(new Note(127-yloc/10, xloc));
+        this.noteList.add(new Note(127-yloc/10, xloc));
     }
 
 
