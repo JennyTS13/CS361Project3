@@ -24,6 +24,14 @@ import javafx.stage.Stage;
  */
 public class Main extends Application{
 
+
+    /**
+     * Overrides the start method of the Application class
+     * Sets up the GUI
+     *
+     * @param primaryStage the stage to display the GUI
+     * @throws Exception the exception that is thrown if Main.fxml cannot be found and loaded
+     */
     @Override
     public void start( Stage primaryStage ) throws Exception {
 
@@ -32,11 +40,11 @@ public class Main extends Application{
 
         // loading FXML
         FXMLLoader fxmlLoader = new  FXMLLoader( getClass().getResource("Main.fxml") );
-        fxmlLoader.setController( composition );      // Set Composition as the controller
+        fxmlLoader.setController( composition );      // set Composition as the controller
         BorderPane root = fxmlLoader.load();
         guiLineSetup(composition.getCompositionBox());
 
-        // Setting stage
+        // setting stage
         primaryStage.setTitle("Composition Player");
         primaryStage.setScene( new Scene( root, 600, 400) );
         primaryStage.setOnCloseRequest(event -> System.exit(0));
@@ -67,6 +75,9 @@ public class Main extends Application{
         }
     }
 
+    /**
+     * Launches the program
+     */
     public static void main( String[] args ) {
         launch(args);
     }
