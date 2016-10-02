@@ -10,9 +10,7 @@ package proj3HughesLavoieLinMalionek;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
@@ -26,11 +24,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application{
 
-    /**
-     *  WRITE A JAVADOC HERE
-     * @param primaryStage
-     * @throws Exception
-     */
+    @Override
     public void start( Stage primaryStage ) throws Exception {
 
         // initializing composition object
@@ -40,7 +34,7 @@ public class Main extends Application{
         FXMLLoader fxmlLoader = new  FXMLLoader( getClass().getResource("Main.fxml") );
         fxmlLoader.setController( composition );      // Set Composition as the controller
         BorderPane root = fxmlLoader.load();
-        guiLineSetup(root.getCenter());
+        guiLineSetup(composition.getCompositionBox());
 
         // Setting stage
         primaryStage.setTitle("Composition Player");
@@ -54,13 +48,9 @@ public class Main extends Application{
     /**
      * Add 127 horizontal thin light gray lines spaced 10 pixels apart to the GUI
      *
-     * @param center the pane that holds the VBox which holds the lines
+     * @param compositionBox the pane that will hold the noteLines, the notes (blocks), and the redLine
      */
-    public void guiLineSetup(Node center){
-
-
-        // holds the noteLines, the notes (blocks), and the redLine
-        Pane compositionBox = (Pane) ((ScrollPane) center).getContent();
+    public void guiLineSetup(Pane compositionBox){
 
         // looping over to add noteLines
         for ( int i = 1; i <= 127; i++ ){
@@ -77,10 +67,6 @@ public class Main extends Application{
         }
     }
 
-    /**
-     * DO WE NEED A JAVADOC HERE?
-     * @param args
-     */
     public static void main( String[] args ) {
         launch(args);
     }

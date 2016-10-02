@@ -80,16 +80,9 @@ public class Composition {
      * Constructor for Composition
      */
     public Composition() {
-
-        // midiPlayer for playing notes
         this.midiPlayer = new MidiPlayer(this.BPM, this.DURATION);
-
-        // noteList for storing notes
         this.noteList = new ArrayList<Note>();
-
-        // timeline for animating redLine
         this.timeline = new Timeline();
-
     }
 
     /**
@@ -137,8 +130,8 @@ public class Composition {
     }
 
     /**
-     * Triggered when "Stop" button is clicked
      * Stops and clears the midiPlayer
+     * Also triggered when the "Stop" button is clicked
      */
     @FXML
     public void stopComposition() {
@@ -177,7 +170,7 @@ public class Composition {
         rect.setTranslateX(xloc);
         rect.setTranslateY(yloc);
 
-        compositionBox.getChildren().add(rect);
+        this.compositionBox.getChildren().add(rect);
 
         // create and store the equivalent note in noteList
         this.noteList.add( new Note( 127 - yloc / 10, xloc) );  // ***JENNY!!!! Pwease explain the arithmetic here******************************
@@ -224,6 +217,15 @@ public class Composition {
     }
 
     /**
+     * Accessor method which returns the compositionBox
+     * @return the pane that holds the noteLines, the notes (blocks), and the redLine
+     */
+    public Pane getCompositionBox(){
+        return this.compositionBox;
+    }
+
+
+    /**
      * A note object that stores the pitch and startTick values
      * to be played on a MidiPlayer
      */
@@ -240,11 +242,8 @@ public class Composition {
          * @param startTick     the tick that the note begins playing in the MidiPlayer
          */
         Note( int pitch, int startTick ){
-
-            // initializing fields
             this.pitch = pitch;
             this.startTick = startTick;
-
         }
     }
 }
